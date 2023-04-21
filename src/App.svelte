@@ -1,7 +1,7 @@
 <script lang="ts">
   import PolkaDotGroup from "./lib/PolkaDotGroup.svelte";
 
-  $: groups = [1, 1, 1, 1, 1, 1];
+  let groups = [1, 1, 1, 1, 1, 1];
 
   function addGroup() {
     groups = [...groups, 1];
