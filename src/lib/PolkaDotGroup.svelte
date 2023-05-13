@@ -1,10 +1,23 @@
 <script lang="ts">
   import key from "../assets/key.json";
-  const status = [false, false, false, false, false];
+  let status = [false, false, false, false, false];
   function handleClick(event) {
     let id = Number(event.target.id);
     status[id] = !status[id];
   }
+
+  export let inputCharacter: string;
+  function findKeyByValue(obj, value) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] === value) {
+        return key;
+      }
+    }
+    return null;
+  }
+
+  let ciphertextKey = findKeyByValue(key, inputCharacter.toUpperCase());
+  $: status = ciphertextKey.split("").map((c) => c === "1");
 </script>
 
 <div class="container">

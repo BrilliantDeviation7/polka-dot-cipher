@@ -1,10 +1,11 @@
 <script lang="ts">
   import PolkaDotGroup from "./lib/PolkaDotGroup.svelte";
+  import key from "./assets/key.json";
 
-  let groups = [1, 1, 1, 1, 1, 1];
+  let plaintext = "";
 
   function addGroup() {
-    groups = [...groups, 1];
+    plaintext += "6";
   }
 </script>
 
@@ -22,13 +23,17 @@
     >.
   </p>
 
-  <div class="card">
-    <button on:click={addGroup}>Add Polka Dot Group</button>
-  </div>
+  <button on:click={addGroup}>Add Polka Dot Group</button>
+
+  <input bind:value={plaintext} placeholder="Type plaintext here..." />
 
   <div class="groups">
-    {#each groups as group}
-      <PolkaDotGroup />
+    {#each plaintext as char, i}
+      {#if i < plaintext.length && Object.values(key).includes(char.toUpperCase())}
+        <PolkaDotGroup inputCharacter={char} />
+      {:else}
+        <PolkaDotGroup inputCharacter={"6"} />
+      {/if}
     {/each}
   </div>
 </main>
@@ -40,12 +45,26 @@
     width: screen;
     flex-wrap: wrap;
   }
+
   button {
-    padding: 2em;
-    will-change: filter;
-    transition: filter 300ms;
+    margin-bottom: 16px;
   }
-  button:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  input {
+    width: 80vw;
+    font-size: 18px;
+    padding: 10px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+    border: solid #e5e7eb 3px;
+    transition: border-color 0.25s, filter 300ms;
+  }
+  input:hover {
+    border-color: #646cff;
+    filter: drop-shadow(0 0 1em #646cffaa);
+  }
+  input:focus,
+  input:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
   }
 </style>
